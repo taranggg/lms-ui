@@ -1,0 +1,22 @@
+{
+  "id": "batch7",
+  "name": "Mobile App Development",
+  "code": "MAD-2025-07",
+  "status": "active",
+  "trainer": "Mr. Alex Turner",
+  "schedule": "Sat - 11:00 AM",
+  "duration": "2026-04-01 to 2026-07-01",
+  "totalSessions": 22,
+  "description": "Building cross-platform mobile apps",
+  "students": ["stu1", "stu3", "stu6", "stu9", "stu11", "stu14"],
+  "classmates": ["Alice", "Carol"],
+  "attendance": [],
+  "resources": [],
+  "sessions": [],
+  "stats": {
+    "sessionsCompleted": 0,
+    "materialsAvailable": 0,
+    "attendancePercent": 0
+  },
+  "nextSession": null
+}

@@ -1,0 +1,22 @@
+{
+  "id": "batch8",
+  "name": "Data Science Foundations",
+  "code": "DS-2025-08",
+  "status": "active",
+  "trainer": "Dr. Michael Brown",
+  "schedule": "Wed - 2:00 PM",
+  "duration": "2026-05-01 to 2026-08-01",
+  "totalSessions": 26,
+  "description": "Intro to data science, Python, and ML",
+  "students": ["stu2", "stu3", "stu4", "stu7", "stu10", "stu12", "stu15"],
+  "classmates": ["Bob", "Carol"],
+  "attendance": [],
+  "resources": [],
+  "sessions": [],
+  "stats": {
+    "sessionsCompleted": 0,
+    "materialsAvailable": 0,
+    "attendancePercent": 0
+  },
+  "nextSession": null
+}

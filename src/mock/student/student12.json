@@ -1,0 +1,8 @@
+{
+  "studentId": "stu12",
+  "name": "Leo",
+  "email": "leo@example.com",
+  "batches": ["batch3", "batch5", "batch8"],
+  "notifications": ["Welcome Leo!"],
+  "recentActivity": ["Logged in", "Viewed Batch3 details"]
+}

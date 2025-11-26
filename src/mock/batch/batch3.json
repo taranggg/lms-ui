@@ -1,0 +1,22 @@
+{
+  "id": "batch3",
+  "name": "Backend Essentials",
+  "code": "BE-2025-03",
+  "status": "active",
+  "trainer": "Mr. John Doe",
+  "schedule": "Wed, Sat - 3:00 PM",
+  "duration": "2025-12-10 to 2026-04-10",
+  "totalSessions": 28,
+  "description": "Core backend concepts with Node.js and Express",
+  "students": ["stu2", "stu3", "stu4", "stu6", "stu9", "stu12", "stu15"],
+  "classmates": ["Bob", "Carol"],
+  "attendance": [],
+  "resources": [],
+  "sessions": [],
+  "stats": {
+    "sessionsCompleted": 0,
+    "materialsAvailable": 0,
+    "attendancePercent": 0
+  },
+  "nextSession": null
+}
