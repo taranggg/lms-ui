@@ -5,7 +5,35 @@ import { Button } from "@/components/ui/button";
 import { Users, FileText, Calendar, BadgeCheck } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 // Removed duplicate Button import
-import { studentBatches } from "@/lib/studentBatchData";
+import batchDetailsData from "@/mock/studentBatchDetails.json";
+type Batch = {
+  id: string;
+  name: string;
+  code: string;
+  status: string;
+  trainer: string;
+  schedule: string;
+  duration: string;
+  totalSessions: number;
+  description: string;
+  classmates: string[];
+  attendance: { date: string; topic: string; status: string }[];
+  resources: {
+    name: string;
+    type: string;
+    link: string;
+    uploaded: string;
+    by: string;
+    description?: string;
+  }[];
+  sessions: { date: string; time: string; topic: string; recording: string }[];
+  stats: {
+    sessionsCompleted: number;
+    materialsAvailable: number;
+    attendancePercent: number;
+  };
+  nextSession: { date: string; time: string; topic: string } | null;
+};
 import BatchOverview from "@/components/student/BatchOverview";
 import BatchStats from "@/components/student/BatchStats";
 import BatchMaterials from "@/components/student/BatchMaterials";
@@ -17,7 +45,8 @@ export default function StudentBatchDetail() {
   const params = useParams();
   const batchId = params?.id as string;
   const batch =
-    studentBatches.find((b) => b.id === batchId) || studentBatches[0];
+    (batchDetailsData.batches as Batch[]).find((b) => b.id === batchId) ||
+    (batchDetailsData.batches as Batch[])[0];
   const [tab, setTab] = React.useState("overview");
   React.useEffect(() => {
     if (
@@ -85,8 +114,24 @@ export default function StudentBatchDetail() {
           </TabsContent>
           <TabsContent value="attendance">
             <BatchAttendance
-              stats={batch.stats}
-              attendance={batch.attendance}
+              stats={{
+                attendancePercent: batch.stats.attendancePercent,
+                sessionsPresent: batch.attendance.filter(
+                  (a) => a.status === "Present"
+                ).length,
+                sessionsAbsent: batch.attendance.filter(
+                  (a) => a.status === "Absent"
+                ).length,
+              }}
+              attendance={batch.attendance.map((a) => ({
+                ...a,
+                status:
+                  a.status === "Present"
+                    ? "Present"
+                    : a.status === "Absent"
+                    ? "Absent"
+                    : "Not Marked",
+              }))}
             />
           </TabsContent>
         </Tabs>

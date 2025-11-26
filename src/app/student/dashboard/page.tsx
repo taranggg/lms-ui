@@ -3,21 +3,15 @@ import React from "react";
 import {
   School,
   LogOut,
-  FileText,
   BookOpen,
-  Users,
   CalendarDays,
   Clock,
-  File,
   FileVideo,
   FileText as FileTextIcon,
   Link as LinkIcon,
 } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function StudentDashboard() {
@@ -151,7 +145,7 @@ export default function StudentDashboard() {
           Dashboard
         </h1>
         <p className="text-[var(--color-dashboard-subtitle,#6b7280)] mb-6">
-          Welcome back! Here's what's happening today
+          Welcome back! Here&apos;s what&apos;s happening today
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* My Batches */}
@@ -198,7 +192,7 @@ export default function StudentDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Today's Classes */}
           <Card className="rounded-xl p-6 bg-[var(--card)] text-[var(--card-foreground)]">
-            <div className="font-semibold mb-2">Today's Classes</div>
+            <div className="font-semibold mb-2">Today&apos;s Classes</div>
             <div className="text-sm text-[var(--muted-foreground)] mb-4">
               Your scheduled sessions for today
             </div>

@@ -3,13 +3,25 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BadgeCheck } from "lucide-react";
 
+export interface AttendanceRecord {
+  date: string;
+  topic: string;
+  status: "Present" | "Absent" | "Not Marked";
+}
+
+export interface BatchAttendanceProps {
+  stats: {
+    attendancePercent: number;
+    sessionsPresent: number;
+    sessionsAbsent: number;
+  };
+  attendance: AttendanceRecord[];
+}
+
 export default function BatchAttendance({
   stats,
   attendance,
-}: {
-  stats: any;
-  attendance: any[];
-}) {
+}: BatchAttendanceProps) {
   return (
     <div className="mt-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -20,13 +32,13 @@ export default function BatchAttendance({
           </div>
         </Card>
         <Card className="bg-[var(--card)] text-[var(--card-foreground)] flex flex-col items-center justify-center">
-          <div className="text-2xl font-bold">2</div>
+          <div className="text-2xl font-bold">{stats.sessionsPresent}</div>
           <div className="text-sm text-[var(--muted-foreground)]">
             Sessions Present
           </div>
         </Card>
         <Card className="bg-[var(--card)] text-[var(--card-foreground)] flex flex-col items-center justify-center">
-          <div className="text-2xl font-bold">0</div>
+          <div className="text-2xl font-bold">{stats.sessionsAbsent}</div>
           <div className="text-sm text-[var(--muted-foreground)]">
             Sessions Absent
           </div>
@@ -93,7 +105,7 @@ export default function BatchAttendance({
                         </div>
                       ) : (
                         <span className="inline-flex items-center px-3 py-1 rounded-full bg-[var(--muted)] text-[var(--muted-foreground)] text-sm font-medium">
-                          Not Marked
+                          {record.status === "Absent" ? "Absent" : "Not Marked"}
                         </span>
                       )}
                     </td>
