@@ -4,7 +4,6 @@ import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Users, FileText, Calendar, BadgeCheck } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-// Removed duplicate Button import
 import batchDetailsData from "@/mock/studentBatchDetails.json";
 type Batch = {
   id: string;
