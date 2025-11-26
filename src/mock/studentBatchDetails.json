@@ -1,0 +1,84 @@
+{
+  "batches": [
+    {
+      "id": "MDB-2825-01",
+      "name": "Web Development Bootcamp",
+      "code": "WDB-2025-01",
+      "status": "active",
+      "trainer": "Dr. Sarah Johnson",
+      "schedule": "Mon, Wed, Fri - 10:00 AM",
+      "duration": "2025-11-01 to 2026-02-28",
+      "totalSessions": 36,
+      "description": "Comprehensive full-stack web development course",
+      "classmates": ["Jane Doe", "John Doe", "Alice", "Bob"],
+      "attendance": [
+        {
+          "date": "2025-11-24",
+          "topic": "Data Visualization with Python",
+          "status": "Not Marked"
+        },
+        {
+          "date": "2025-11-23",
+          "topic": "Pandas DataFrames",
+          "status": "Present"
+        }
+      ],
+      "resources": [
+        {
+          "name": "React Hooks PDF",
+          "type": "pdf",
+          "link": "#",
+          "uploaded": "2025-11-24",
+          "by": "Dr. Sarah Johnson",
+          "description": "Detailed notes on React Hooks."
+        },
+        {
+          "name": "State Management Video",
+          "type": "video",
+          "link": "#",
+          "uploaded": "2025-11-22",
+          "by": "Dr. Sarah Johnson",
+          "description": "Lecture recording on state management."
+        },
+        {
+          "name": "HTML & CSS Slides",
+          "type": "pdf",
+          "link": "#",
+          "uploaded": "2025-11-20",
+          "by": "Dr. Sarah Johnson",
+          "description": "Slides for HTML & CSS basics."
+        }
+      ],
+      "sessions": [
+        {
+          "date": "2025-11-24",
+          "time": "10:00 AM",
+          "topic": "Introduction to React Hooks",
+          "recording": "Available"
+        },
+        {
+          "date": "2025-11-22",
+          "time": "10:00 AM",
+          "topic": "State Management Basics",
+          "recording": "Available"
+        },
+        {
+          "date": "2025-11-20",
+          "time": "10:00 AM",
+          "topic": "HTML & CSS",
+          "recording": "N/A"
+        }
+      ],
+      "stats": {
+        "sessionsCompleted": 3,
+        "materialsAvailable": 3,
+        "attendancePercent": 100
+      },
+      "nextSession": {
+        "date": "2025-11-27",
+        "time": "10:00 AM",
+        "topic": "Advanced JavaScript"
+      }
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   School,
@@ -15,9 +16,12 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function StudentDashboard() {
+  const router = useRouter();
   // Dummy data for UI
   const student = { name: "John Doe", email: "john.doe@example.com" };
   const batches = [
@@ -182,7 +186,10 @@ export default function StudentDashboard() {
                   </div>
                 </div>
               )}
-              <Button className="w-full bg-[var(--color-batch-btn-bg,#18181b)] text-[var(--color-batch-btn-text,#fff)] mt-2">
+              <Button
+                className="w-full bg-[var(--color-batch-btn-bg,#18181b)] text-[var(--color-batch-btn-text,#fff)] mt-2"
+                onClick={() => router.push(`/student/batch-detail/${batch.id}`)}
+              >
                 Open Batch
               </Button>
             </Card>
