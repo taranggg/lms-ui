@@ -9,14 +9,14 @@ export default function AdminRecentActivity({
   activity,
 }: AdminRecentActivityProps) {
   return (
-    <Card>
+    <Card className="bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
         <CardTitle>Recent Activity</CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
           {activity.map((a, idx) => (
-            <li key={idx} className="p-2 rounded bg-gray-100">
+            <li key={idx} className="p-2 rounded bg-[var(--muted)]">
               <strong>{a.type}: </strong>
               <span>{a.detail}</span>
             </li>

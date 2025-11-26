@@ -14,11 +14,15 @@ interface AdminBatchCardProps {
 
 export default function AdminBatchCard({ batch }: AdminBatchCardProps) {
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
         <CardTitle>{batch.name}</CardTitle>
-        <div className="text-gray-500">Schedule: {batch.schedule}</div>
-        <div className="text-gray-500">Trainer: {batch.trainer}</div>
+        <div className="text-[var(--muted-foreground)]">
+          Schedule: {batch.schedule}
+        </div>
+        <div className="text-[var(--muted-foreground)]">
+          Trainer: {batch.trainer}
+        </div>
       </CardHeader>
       <CardContent className="flex justify-between items-center">
         <div className="text-sm">Students: {batch.students}</div>

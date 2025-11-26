@@ -16,8 +16,8 @@ export default function AdminTrainers() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 flex flex-col gap-6">
-      <Card className="max-w-2xl mx-auto w-full">
+    <div className="min-h-screen bg-[var(--background)] p-4 flex flex-col gap-6">
+      <Card className="max-w-2xl mx-auto w-full bg-[var(--card)] text-[var(--card-foreground)]">
         <CardHeader>
           <CardTitle className="text-2xl">All Trainers</CardTitle>
         </CardHeader>

@@ -8,7 +8,7 @@ interface BatchResourcesProps {
 
 export default function BatchResources({ resources }: BatchResourcesProps) {
   return (
-    <Card>
+    <Card className="bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
         <CardTitle>Batch Resources</CardTitle>
       </CardHeader>
@@ -17,7 +17,7 @@ export default function BatchResources({ resources }: BatchResourcesProps) {
           {resources.map((res, idx) => (
             <li
               key={idx}
-              className="flex justify-between items-center p-2 rounded bg-gray-100"
+              className="flex justify-between items-center p-2 rounded bg-[var(--muted)]"
             >
               <span>{res.name}</span>
               <Button size="sm" variant="outline" asChild>

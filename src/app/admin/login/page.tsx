@@ -10,8 +10,8 @@ export default function AdminLogin() {
   const [error, setError] = React.useState<string | null>(null);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md p-6">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+      <Card className="w-full max-w-md p-6 bg-[var(--card)] text-[var(--card-foreground)]">
         <CardHeader>
           <CardTitle className="text-xl">Admin Login</CardTitle>
         </CardHeader>
@@ -23,14 +23,30 @@ export default function AdminLogin() {
             </Alert>
           )}
           <form className="flex flex-col gap-4">
-            <Input type="email" placeholder="Email" required />
-            <Input type="password" placeholder="Password" required />
-            <Button type="submit" className="w-full">
+            <Input
+              type="email"
+              placeholder="Email"
+              required
+              className="bg-[var(--input)] text-[var(--foreground)]"
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              required
+              className="bg-[var(--input)] text-[var(--foreground)]"
+            />
+            <Button
+              type="submit"
+              className="w-full bg-[var(--color-login-btn-bg,#18181b)] text-[var(--color-login-btn-text,#fff)] hover:bg-[var(--color-login-btn-hover,#3730a3)]"
+            >
               Login
             </Button>
           </form>
           <div className="mt-4 text-center">
-            <Link href="#" className="text-blue-600 hover:underline text-sm">
+            <Link
+              href="#"
+              className="text-[var(--color-login-link,#2563eb)] hover:underline text-sm"
+            >
               Forgot password?
             </Link>
           </div>

@@ -11,22 +11,28 @@ interface AdminStatsProps {
 
 export default function AdminStats({ stats }: AdminStatsProps) {
   return (
-    <Card>
+    <Card className="bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
         <CardTitle>System Overview</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-6 justify-between">
         <div className="flex flex-col items-center">
           <span className="text-2xl font-bold">{stats.students}</span>
-          <span className="text-sm text-gray-500">Students</span>
+          <span className="text-sm text-[var(--muted-foreground)]">
+            Students
+          </span>
         </div>
         <div className="flex flex-col items-center">
           <span className="text-2xl font-bold">{stats.trainers}</span>
-          <span className="text-sm text-gray-500">Trainers</span>
+          <span className="text-sm text-[var(--muted-foreground)]">
+            Trainers
+          </span>
         </div>
         <div className="flex flex-col items-center">
           <span className="text-2xl font-bold">{stats.batches}</span>
-          <span className="text-sm text-gray-500">Batches</span>
+          <span className="text-sm text-[var(--muted-foreground)]">
+            Batches
+          </span>
         </div>
       </CardContent>
     </Card>

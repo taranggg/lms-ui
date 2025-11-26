@@ -24,12 +24,16 @@ export default function StudentBatchDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 flex flex-col gap-6">
-      <Card className="max-w-2xl mx-auto w-full">
+    <div className="min-h-screen bg-[var(--background)] p-4 flex flex-col gap-6">
+      <Card className="max-w-2xl mx-auto w-full bg-[var(--card)] text-[var(--card-foreground)]">
         <CardHeader>
           <CardTitle className="text-2xl">{batch.name} Details</CardTitle>
-          <div className="text-gray-500">Schedule: {batch.schedule}</div>
-          <div className="text-gray-500">Trainer: {batch.trainer}</div>
+          <div className="text-[var(--muted-foreground)]">
+            Schedule: {batch.schedule}
+          </div>
+          <div className="text-[var(--muted-foreground)]">
+            Trainer: {batch.trainer}
+          </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-6">
           <ClassmateList classmates={batch.classmates} />

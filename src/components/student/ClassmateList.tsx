@@ -8,7 +8,7 @@ interface ClassmateListProps {
 
 export default function ClassmateList({ classmates }: ClassmateListProps) {
   return (
-    <Card>
+    <Card className="bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
         <CardTitle>Classmates</CardTitle>
       </CardHeader>
@@ -19,7 +19,9 @@ export default function ClassmateList({ classmates }: ClassmateListProps) {
               <Avatar>
                 <AvatarFallback>{name.split(" ")[0][0]}</AvatarFallback>
               </Avatar>
-              <span className="mt-2 text-sm">{name}</span>
+              <span className="mt-2 text-sm text-[var(--muted-foreground)]">
+                {name}
+              </span>
             </li>
           ))}
         </ul>

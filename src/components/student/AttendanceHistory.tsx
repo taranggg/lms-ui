@@ -9,7 +9,7 @@ export default function AttendanceHistory({
   attendance,
 }: AttendanceHistoryProps) {
   return (
-    <Card>
+    <Card className="bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
         <CardTitle>Attendance History</CardTitle>
       </CardHeader>
@@ -18,14 +18,14 @@ export default function AttendanceHistory({
           {attendance.map((record, idx) => (
             <li
               key={idx}
-              className="flex justify-between items-center p-2 rounded bg-gray-100"
+              className="flex justify-between items-center p-2 rounded bg-[var(--muted)]"
             >
               <span>{record.date}</span>
               <span
                 className={
                   record.status === "Present"
-                    ? "text-green-600"
-                    : "text-red-600"
+                    ? "text-[var(--color-attendance-present,#16a34a)]"
+                    : "text-[var(--color-attendance-absent,#dc2626)]"
                 }
               >
                 {record.status}
