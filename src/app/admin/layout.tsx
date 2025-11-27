@@ -10,29 +10,45 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname();
   return (
-    <div className="min-h-screen flex flex-col">
-      <nav className="bg-white shadow p-4 flex gap-4">
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+      <nav className="bg-[var(--card)] shadow p-4 flex gap-4 text-[var(--card-foreground)]">
         <Link
           href="/admin/dashboard"
-          className={pathname === "/admin/dashboard" ? "font-bold" : ""}
+          className={
+            pathname === "/admin/dashboard"
+              ? "font-bold text-[var(--primary)]"
+              : ""
+          }
         >
           Dashboard
         </Link>
         <Link
           href="/admin/batches"
-          className={pathname === "/admin/batches" ? "font-bold" : ""}
+          className={
+            pathname === "/admin/batches"
+              ? "font-bold text-[var(--primary)]"
+              : ""
+          }
         >
           Batches
         </Link>
         <Link
           href="/admin/trainers"
-          className={pathname === "/admin/trainers" ? "font-bold" : ""}
+          className={
+            pathname === "/admin/trainers"
+              ? "font-bold text-[var(--primary)]"
+              : ""
+          }
         >
           Trainers
         </Link>
         <Link
           href="/admin/students"
-          className={pathname === "/admin/students" ? "font-bold" : ""}
+          className={
+            pathname === "/admin/students"
+              ? "font-bold text-[var(--primary)]"
+              : ""
+          }
         >
           Students
         </Link>

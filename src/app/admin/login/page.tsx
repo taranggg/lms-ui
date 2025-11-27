@@ -37,7 +37,7 @@ export default function AdminLogin() {
             />
             <Button
               type="submit"
-              className="w-full bg-[var(--color-login-btn-bg,#18181b)] text-[var(--color-login-btn-text,#fff)] hover:bg-[var(--color-login-btn-hover,#3730a3)]"
+              className="w-full bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--secondary)]"
             >
               Login
             </Button>

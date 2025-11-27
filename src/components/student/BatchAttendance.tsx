@@ -2,19 +2,10 @@ import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BadgeCheck } from "lucide-react";
-
-export interface AttendanceRecord {
-  date: string;
-  topic: string;
-  status: "Present" | "Absent" | "Not Marked";
-}
+import type { BatchStats, AttendanceRecord } from "@/types/student/type";
 
 export interface BatchAttendanceProps {
-  stats: {
-    attendancePercent: number;
-    sessionsPresent: number;
-    sessionsAbsent: number;
-  };
+  stats: BatchStats & { sessionsPresent: number; sessionsAbsent: number };
   attendance: AttendanceRecord[];
 }
 

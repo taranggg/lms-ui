@@ -16,7 +16,9 @@ export default function AdminBatchCard({ batch }: AdminBatchCardProps) {
   return (
     <Card className="w-full bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
-        <CardTitle>{batch.name}</CardTitle>
+        <CardTitle className="text-[var(--card-foreground)]">
+          {batch.name}
+        </CardTitle>
         <div className="text-[var(--muted-foreground)]">
           Schedule: {batch.schedule}
         </div>
@@ -25,7 +27,9 @@ export default function AdminBatchCard({ batch }: AdminBatchCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex justify-between items-center">
-        <div className="text-sm">Students: {batch.students}</div>
+        <div className="text-sm text-[var(--card-foreground)]">
+          Students: {batch.students}
+        </div>
         <div className="flex gap-2">
           <Button size="sm" variant="outline">
             Edit

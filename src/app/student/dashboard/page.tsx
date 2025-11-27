@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import type { Batch, Resource, Session } from "@/types/student/type";
 import {
   School,
   LogOut,
@@ -16,107 +17,113 @@ import { useRouter } from "next/navigation";
 
 export default function StudentDashboard() {
   const router = useRouter();
-  // Dummy data for UI
-  const student = { name: "John Doe", email: "john.doe@example.com" };
-  const batches = [
-    {
-      id: "MDB-2825-01",
-      name: "Web Development Bootcamp",
-      trainer: "Dr. Sarah Johnson",
-      schedule: "Mon, Wed, Fri - 10:00 AM",
-      status: "active",
-      nextSession: null,
-    },
-    {
-      id: "DSF-2825-02",
-      name: "Data Science Fundamentals",
-      trainer: "Prof. Michael Chen",
-      schedule: "Tue, Thu - 2:00 PM",
-      status: "active",
-      nextSession: {
-        topic: "Data Visualization with Python",
-        date: "2025-11-24",
-        time: "2:00 PM",
-      },
-    },
-    {
-      id: "MAD-2825-03",
-      name: "Mobile App Development",
-      trainer: "Dr. Emily Rodriguez",
-      schedule: "Mon, Wed - 3:00 PM",
-      status: "active",
-      nextSession: {
-        topic: "Navigation in React Native",
-        date: "2025-11-24",
-        time: "3:00 PM",
-      },
-    },
-  ];
-  const todaysClasses = [
-    {
-      time: "10:00 AM",
-      status: "ongoing",
-      topic: "Introduction to React Hooks",
-      batch: "Web Development Bootcamp",
-      duration: "90 minutes",
-      joinable: true,
-    },
-    {
-      time: "2:00 PM",
-      status: "upcoming",
-      topic: "Data Visualization with Python",
-      batch: "Data Science Fundamentals",
-      duration: "120 minutes",
-      joinable: false,
-    },
-    {
-      time: "3:00 PM",
-      status: "upcoming",
-      topic: "Navigation in React Native",
-      batch: "Mobile App Development",
-      duration: "90 minutes",
-      joinable: false,
-    },
-  ];
-  const recentMaterials = [
-    {
-      name: "React Hooks Guide",
-      batch: "Web Development Bootcamp",
-      type: "pdf",
-      date: "2025-11-20",
-      icon: <FileTextIcon size={18} className="text-blue-600" />,
-    },
-    {
-      name: "State Management Video Tutorial",
-      batch: "Web Development Bootcamp",
-      type: "video",
-      date: "2025-11-21",
-      icon: <FileVideo size={18} className="text-blue-600" />,
-    },
-    {
-      name: "Python Data Analysis Notebook",
-      batch: "Data Science Fundamentals",
-      type: "document",
-      date: "2025-11-18",
-      icon: <FileTextIcon size={18} className="text-blue-600" />,
-    },
-    {
-      name: "React Native Documentation",
-      batch: "Mobile App Development",
-      type: "link",
-      date: "2025-11-15",
-      icon: <LinkIcon size={18} className="text-blue-600" />,
-    },
-  ];
+  type Student = {
+    studentId: string;
+    name: string;
+    email: string;
+    batches: Batch[];
+    notifications: string[];
+    recentActivity: string[];
+  };
+  const [student, setStudent] = React.useState<Student | null>(null);
+  const [batches, setBatches] = React.useState<Batch[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    async function loadStudentAndBatches() {
+      if (typeof window !== "undefined") {
+        const studentId = window.localStorage.getItem("student_logged_in");
+        if (!studentId) {
+          router.push("/student/login");
+          return;
+        }
+        const mod = await import(
+          `@/mock/student/student${studentId.replace("stu", "")}.json`
+        );
+        const studentData = mod.default;
+        setStudent(studentData);
+
+        // Load batch details dynamically
+        const batchIds = studentData.batches;
+        const batchPromises = batchIds.map((id: string) =>
+          import(`@/mock/batch/${id}.json`).then((b) => b.default)
+        );
+        const batchDetails = await Promise.all(batchPromises);
+        setBatches(batchDetails);
+        setLoading(false);
+      }
+    }
+    loadStudentAndBatches();
+  }, [router]);
+
+  if (loading || !student) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="text-lg text-[var(--muted-foreground)]">
+          Loading...
+        </span>
+      </div>
+    );
+  }
+
+  // Helper: get today's classes from batches
+  const today = new Date().toISOString().slice(0, 10);
+  type TodaysClass = {
+    time: string;
+    status: string;
+    topic: string;
+    batch: string;
+    duration: string;
+    joinable: boolean;
+  };
+  const todaysClasses: TodaysClass[] = batches.flatMap((batch: Batch) =>
+    batch.sessions
+      .filter((session: Session) => session.date === today)
+      .map((session: Session) => ({
+        time: session.time,
+        status: "ongoing", // You can add logic for status
+        topic: session.topic,
+        batch: batch.name,
+        duration: "90 minutes", // Or use actual duration if available
+        joinable: true,
+      }))
+  );
+
+  // Helper: get recent materials from batches
+  type RecentMaterial = {
+    name: string;
+    batch: string;
+    type: string;
+    date: string;
+    icon: React.ReactElement;
+  };
+  const recentMaterials: RecentMaterial[] = batches.flatMap((batch: Batch) =>
+    batch.resources.map((res: Resource) => ({
+      name: res.name,
+      batch: batch.name,
+      type: res.type,
+      date: res.uploaded,
+      icon:
+        res.type === "pdf" ? (
+          <FileTextIcon size={18} className="text-blue-600" />
+        ) : res.type === "video" ? (
+          <FileVideo size={18} className="text-blue-600" />
+        ) : res.type === "link" ? (
+          <LinkIcon size={18} className="text-blue-600" />
+        ) : (
+          <FileTextIcon size={18} className="text-blue-600" />
+        ),
+    }))
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[var(--color-dashboard-gradient-from,#eaf6ff)] to-[var(--color-dashboard-gradient-to,#d7f3ff)]">
+    <div className="min-h-screen bg-gradient-to-tr from-[var(--color-dashboard-gradient-from)] to-[var(--color-dashboard-gradient-to)]">
       {/* Header */}
       <header className="bg-[var(--card)] text-[var(--card-foreground)] shadow-sm px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <School size={28} color="var(--color-dashboard-icon,#2563eb)" />
+          <School size={28} color="var(--color-dashboard-icon)" />
           <div>
-            <span className="font-semibold text-lg text-[var(--color-dashboard-title,#222)]">
+            <span className="font-semibold text-lg text-[var(--color-dashboard-title)]">
               LMS Student Portal
             </span>
             <div className="text-xs text-[var(--muted-foreground)]">
@@ -127,7 +134,7 @@ export default function StudentDashboard() {
         <Button
           variant="ghost"
           size="sm"
-          className="text-[var(--color-dashboard-logout,#374151)] flex gap-2"
+          className="text-[var(--color-dashboard-logout)] flex gap-2"
         >
           <LogOut size={18} /> Logout
         </Button>
@@ -149,7 +156,7 @@ export default function StudentDashboard() {
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* My Batches */}
-          {batches.map((batch, idx) => (
+          {batches.map((batch: Batch) => (
             <Card
               key={batch.id}
               className="rounded-xl p-6 flex flex-col gap-2 bg-[var(--card)] text-[var(--card-foreground)]"
@@ -197,9 +204,9 @@ export default function StudentDashboard() {
               Your scheduled sessions for today
             </div>
             <ul className="space-y-3">
-              {todaysClasses.map((cls, idx) => (
+              {todaysClasses.map((cls) => (
                 <li
-                  key={idx}
+                  key={cls.topic + cls.time + cls.batch}
                   className="flex items-center gap-4 p-3 rounded bg-[var(--muted)]"
                 >
                   <Clock size={16} className="text-[var(--muted-foreground)]" />
@@ -237,9 +244,9 @@ export default function StudentDashboard() {
               Latest uploaded resources
             </div>
             <ul className="space-y-3">
-              {recentMaterials.map((mat, idx) => (
+              {recentMaterials.map((mat) => (
                 <li
-                  key={idx}
+                  key={mat.name + mat.date + mat.batch}
                   className="flex items-center gap-3 p-3 rounded bg-[var(--muted)]"
                 >
                   {mat.icon}
@@ -267,3 +274,4 @@ export default function StudentDashboard() {
     </div>
   );
 }
+// The static student dashboard file has been removed as it's now replaced by dynamic route.

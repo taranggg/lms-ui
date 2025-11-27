@@ -13,13 +13,19 @@ interface AdminTrainerCardProps {
 
 export default function AdminTrainerCard({ trainer }: AdminTrainerCardProps) {
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-[var(--card)] text-[var(--card-foreground)]">
       <CardHeader>
-        <CardTitle>{trainer.name}</CardTitle>
-        <div className="text-gray-500">Contact: {trainer.contact}</div>
+        <CardTitle className="text-[var(--card-foreground)]">
+          {trainer.name}
+        </CardTitle>
+        <div className="text-[var(--muted-foreground)]">
+          Contact: {trainer.contact}
+        </div>
       </CardHeader>
       <CardContent className="flex justify-between items-center">
-        <div className="text-sm">Batches: {trainer.batches.join(", ")}</div>
+        <div className="text-sm text-[var(--card-foreground)]">
+          Batches: {trainer.batches.join(", ")}
+        </div>
         <div className="flex gap-2">
           <Button size="sm" variant="outline">
             Edit
