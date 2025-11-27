@@ -1,7 +1,9 @@
 import React from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, Home, BookOpen, CalendarCheck2, Trophy } from "lucide-react";
 import Image from "next/image";
-import Sidebar from "@/components/dashboard/Sidebar";
+import Sidebar, { SidebarItem } from "@/components/dashboard/Sidebar";
+import StudentCoursesPage from "./StudentCoursesPage";
+import StudentResourcesPage from "./StudentResourcesPage";
 import Header from "@/components/dashboard/Header";
 import CourseCards from "@/components/dashboard/CourseCards";
 import HoursSpentChart from "@/components/dashboard/HoursSpentChart";
@@ -56,6 +58,8 @@ function CenterSection({
   );
 }
 
+import StudentProfileForm, { StudentProfile } from "./StudentProfileForm";
+
 function RightSection({
   student,
   todoList,
@@ -67,28 +71,44 @@ function RightSection({
   calendarDate: Date;
   setCalendarDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
+  const [profileModalOpen, setProfileModalOpen] = React.useState(false);
+  const [profile, setProfile] = React.useState<StudentProfile>({
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: student.name,
+    age: "",
+    profession: "College Student",
+    gender: "Other",
+    email: "",
+  });
+
   return (
     <div className="w-[370px] min-w-[320px] max-w-[400px] bg-transparent flex flex-col gap-8 overflow-y-auto h-screen pr-4">
       <div className="bg-white rounded-xl shadow p-6 mt-2">
         <div className="flex items-center justify-between mb-4">
           <div className="font-semibold text-xl">Profile</div>
-          <button className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200">
+          <button
+            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200"
+            onClick={() => setProfileModalOpen(true)}
+          >
             <Pencil size={20} />
           </button>
         </div>
         <div className="flex flex-col items-center mb-4">
           <div className="relative mb-2">
             <Image
-              src="https://randomuser.me/api/portraits/women/44.jpg"
-              alt={student.name}
+              src={
+                profile.image ||
+                "https://randomuser.me/api/portraits/women/44.jpg"
+              }
+              alt={profile.name}
               width={64}
               height={64}
               className="rounded-full relative z-10"
             />
           </div>
-          <div className="font-semibold text-lg mt-2">{student.name}</div>
+          <div className="font-semibold text-lg mt-2">{profile.name}</div>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-xs text-gray-500">College Student</span>
+            <span className="text-xs text-gray-500">{profile.profession}</span>
             <span className="bg-green-100 text-green-600 px-2 py-0.5 rounded-full text-xs font-semibold">
               ✔
             </span>
@@ -103,6 +123,12 @@ function RightSection({
         </div>
         <hr className="my-6 border-gray-200" />
         <TodoList items={todoList} />
+        <StudentProfileForm
+          open={profileModalOpen}
+          onClose={() => setProfileModalOpen(false)}
+          initialProfile={profile}
+          onSave={setProfile}
+        />
       </div>
     </div>
   );
@@ -118,24 +144,57 @@ export default function StudentDashboardComponent({
 }: StudentDashboardProps & { studentId: string }) {
   const [calendarDate, setCalendarDate] = React.useState<Date>(new Date());
 
+  // Example sidebar options for student dashboard
+  const [activePage, setActivePage] = React.useState("Overview");
+  const sidebarItems: SidebarItem[] = [
+    {
+      label: "Overview",
+      icon: <Home size={20} />,
+      active: activePage === "Overview",
+      onClick: () => setActivePage("Overview"),
+    },
+    {
+      label: "Courses",
+      icon: <BookOpen size={20} />,
+      active: activePage === "Courses",
+      onClick: () => setActivePage("Courses"),
+    },
+    {
+      label: "Resources",
+      icon: <BookOpen size={20} />,
+      active: activePage === "Resources",
+      onClick: () => setActivePage("Resources"),
+    },
+  ];
+
   return (
     <div className="flex bg-background min-h-screen">
-      <Sidebar />
+      <Sidebar items={sidebarItems} />
       <div className="flex flex-1">
-        <CenterSection
-          student={student}
-          courses={courses}
-          hoursSpent={hoursSpent}
-          leaderboard={leaderboard}
-          studentId={studentId}
-        />
-        <div className="w-px bg-gray-200 mx-2 h-screen" />
-        <RightSection
-          student={student}
-          todoList={todoList}
-          calendarDate={calendarDate}
-          setCalendarDate={setCalendarDate}
-        />
+        {activePage === "Overview" && (
+          <>
+            <CenterSection
+              student={student}
+              courses={courses}
+              hoursSpent={hoursSpent}
+              leaderboard={leaderboard}
+              studentId={studentId}
+            />
+            <div className="w-px bg-gray-200 mx-2 h-screen" />
+            <RightSection
+              student={student}
+              todoList={todoList}
+              calendarDate={calendarDate}
+              setCalendarDate={setCalendarDate}
+            />
+          </>
+        )}
+        {activePage === "Courses" && <StudentCoursesPage courses={courses} />}
+        {activePage === "Resources" && (
+          <StudentResourcesPage
+            resources={courses.flatMap((c) => c.resources || [])}
+          />
+        )}
       </div>
     </div>
   );

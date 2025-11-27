@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["randomuser.me"],
+    domains: ["randomuser.me", "cdn-icons-png.flaticon.com"],
   },
 };
 

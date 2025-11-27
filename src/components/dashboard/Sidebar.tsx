@@ -13,10 +13,22 @@ import {
 } from "@/components/ui/popover";
 import { Tooltip } from "@/components/ui/tooltip";
 
-const sidebarItems = [{ label: "Overview", icon: <Home />, active: true }];
+export type SidebarItem = {
+  label: string;
+  icon: React.ReactNode;
+  active?: boolean;
+  onClick?: () => void;
+};
 
-export default function Sidebar() {
+interface SidebarProps {
+  items: SidebarItem[];
+}
+
+import { useRouter } from "next/navigation";
+
+export default function Sidebar({ items }: SidebarProps) {
   const [collapsed, setCollapsed] = React.useState(false);
+  const router = useRouter();
   return (
     <aside
       className={`bg-white rounded-2xl shadow flex flex-col py-8 px-4 min-h-screen transition-all duration-300 relative ${
@@ -50,12 +62,13 @@ export default function Sidebar() {
         )}
       </div>
       <nav className="flex flex-col gap-2 flex-1">
-        {sidebarItems.map((item) => (
+        {items.map((item) => (
           <div
             key={item.label}
             className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer text-gray-700 font-medium ${
               item.active ? "bg-gray-900 text-white" : "hover:bg-gray-100"
             }`}
+            onClick={item.onClick}
           >
             {item.icon}
             {!collapsed && <span>{item.label}</span>}
