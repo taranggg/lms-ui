@@ -10,7 +10,7 @@ import Leaderboard, {
   LeaderboardEntry,
 } from "@/components/dashboard/Leaderboard";
 import TodoList, { TodoItem } from "@/components/dashboard/TodoList";
-import { Calendar } from "@/components/ui/calendar";
+import WeeklyCalendar from "@/components/ui/WeeklyCalendar";
 
 export interface StudentDashboardProps {
   student: { name: string };
@@ -77,14 +77,11 @@ export default function StudentDashboardComponent({
                 </span>
               </div>
             </div>
-            {/* Calendar Section - shadcn calendar */}
+            {/* Calendar Section - weekly calendar */}
             <div className="p-4 mb-4">
-              <Calendar
-                mode="single"
+              <WeeklyCalendar
                 selected={calendarDate}
                 onSelect={setCalendarDate}
-                weekStartsOn={0}
-                required
                 className="rounded-xl"
               />
             </div>

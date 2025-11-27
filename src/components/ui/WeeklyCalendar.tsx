@@ -35,13 +35,12 @@ export default function WeeklyCalendar({
   className,
 }: WeeklyCalendarProps) {
   const today = new Date();
-  const [weekStart, setWeekStart] = useState(() =>
-    getWeekStart(selected || today)
-  );
+  // Always show the running week by default
+  const [weekStart, setWeekStart] = useState(() => getWeekStart(today));
   const [monthPickerOpen, setMonthPickerOpen] = useState(false);
 
   const weekDays = getWeekDays(weekStart);
-  const selectedDate = selected || today;
+  const selectedDate = selected;
 
   // Month/year for header
   const monthLabel = weekStart.toLocaleString("default", {
@@ -74,7 +73,7 @@ export default function WeeklyCalendar({
       <div className="flex items-center justify-between mb-2">
         <button
           className="p-2 rounded hover:bg-gray-200"
-          onClick={() => setWeekStart((ws) => addWeeks(ws, -1))}
+          onClick={() => setWeekStart(addWeeks(weekStart, -1))}
           aria-label="Previous week"
         >
           &#8592;
@@ -87,7 +86,7 @@ export default function WeeklyCalendar({
         </div>
         <button
           className="p-2 rounded hover:bg-gray-200"
-          onClick={() => setWeekStart((ws) => addWeeks(ws, 1))}
+          onClick={() => setWeekStart(addWeeks(weekStart, 1))}
           aria-label="Next week"
         >
           &#8594;
@@ -114,31 +113,40 @@ export default function WeeklyCalendar({
           </select>
         </div>
       )}
-      <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-center gap-1">
         {weekDays.map((d, i) => {
-          const isSelected = d.toDateString() === selectedDate.toDateString();
+          const isSelected =
+            selectedDate && d.toDateString() === selectedDate.toDateString();
           const isToday = d.toDateString() === today.toDateString();
           return (
             <button
               key={d.toDateString()}
-              className={`flex flex-col items-center px-3 py-2 rounded-xl transition font-semibold ${
-                isSelected
-                  ? "bg-teal-600 text-white"
-                  : isToday
-                  ? "bg-gray-200 text-teal-700"
-                  : "bg-white text-gray-700"
-              }`}
-              style={{ minWidth: 44 }}
+              className={`flex flex-col items-center px-2 py-1 rounded-xl transition font-semibold shadow-sm border border-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-300
+                ${
+                  isSelected
+                    ? "bg-teal-500 text-white scale-105 shadow-lg border-teal-300"
+                    : isToday
+                    ? "bg-yellow-400 text-white border-yellow-500 scale-105 shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-teal-50 hover:scale-105"
+                }
+              `}
+              style={{ minWidth: 28 }}
               onClick={() => onSelect?.(d)}
             >
               <span
-                className={`text-xs mb-1 ${
-                  isSelected ? "text-white" : "text-gray-400"
+                className={`text-[10px] mb-0.5 font-medium ${
+                  isSelected
+                    ? "text-white"
+                    : isToday
+                    ? "text-white"
+                    : "text-teal-400"
                 }`}
               >
                 {dayLabels[i]}
               </span>
-              <span className="text-lg font-bold">{d.getDate()}</span>
+              <span className="text-sm font-bold tracking-wide">
+                {d.getDate()}
+              </span>
             </button>
           );
         })}
