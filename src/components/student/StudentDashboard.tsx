@@ -126,7 +126,7 @@ function RightSection({
 
   return (
     <div className="w-[300px] md:w-[320px] lg:w-[360px] xl:w-[400px] min-w-[280px] bg-transparent flex flex-col gap-8 overflow-y-auto h-screen pr-3 lg:pr-4">
-      <div className="bg-[var(--card)] rounded-2xl shadow-sm border border-slate-200/70 p-5 md:p-6 mt-2">
+      <div className=" p-5 md:p-6 mt-2">
         <div className="flex items-center justify-between mb-4">
           <div className="font-semibold text-base md:text-lg">Profile</div>
           <button
