@@ -1,8 +1,15 @@
 {
   "studentId": "stu13",
-  "name": "Mia",
-  "email": "mia@example.com",
-  "batches": ["batch1", "batch4", "batch6"],
-  "notifications": ["Welcome Mia!"],
-  "recentActivity": ["Logged in", "Viewed Batch1 details"]
+  "name": "Meera Nair",
+  "email": "meera.nair@example.com",
+  "courses": ["C001", "C004", "C006", "C008"],
+  "notifications": [
+    "Hi Meera, your attendance in Web Development Bootcamp (C001) is currently above 90%.",
+    "Cloud Computing on Azure (C004) networking basics session is coming up next week."
+  ],
+  "recentActivity": [
+    "Viewed React Hooks recording",
+    "Opened Azure Fundamentals Notes PDF",
+    "Watched DevOps Introduction recording"
+  ]
 }

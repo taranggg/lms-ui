@@ -4,7 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Users, FileText, Calendar, BadgeCheck } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import type { Batch } from "@/types/student/type";
+import type { CourseCard } from "@/components/dashboard/CourseCards";
 import type { AttendanceRecord } from "@/types/student/type";
 import BatchOverview from "@/components/student/BatchOverview";
 import BatchStats from "@/components/student/BatchStats";
@@ -33,35 +33,36 @@ function useStudentData(studentId: string) {
   return student;
 }
 
-function useBatchData(batchId: string) {
-  const [batch, setBatch] = React.useState<Batch | null>(null);
+function useCourseData(courseId: string) {
+  const [course, setCourse] = React.useState<CourseCard | null>(null);
   React.useEffect(() => {
-    async function fetchBatch() {
-      if (!batchId) return;
+    async function fetchCourse() {
+      if (!courseId) return;
       try {
-        const mod = await import(`@/mock/batch/${batchId}.json`);
-        setBatch(mod.default);
+        const mod = await import(`@/mock/course/${courseId}.json`);
+        setCourse(mod.default);
       } catch {
-        setBatch(null);
+        setCourse(null);
       }
     }
-    fetchBatch();
-  }, [batchId]);
-  return batch;
+    fetchCourse();
+  }, [courseId]);
+  return course;
 }
 
-export default function StudentBatchDetail() {
+export default function StudentCourseDetail() {
   const router = useRouter();
   const params = useParams();
   const studentId =
     (Array.isArray(params.studentId)
       ? params.studentId[0]
       : params.studentId) ?? "";
-  const batchId =
-    (Array.isArray(params.batchId) ? params.batchId[0] : params.batchId) ?? "";
+  const courseId =
+    (Array.isArray(params.courseId) ? params.courseId[0] : params.courseId) ??
+    "";
   const [tab, setTab] = React.useState("overview");
   const student = useStudentData(studentId);
-  const batch = useBatchData(batchId);
+  const course = useCourseData(courseId);
 
   React.useEffect(() => {
     if (
@@ -72,7 +73,7 @@ export default function StudentBatchDetail() {
     }
   }, [router]);
 
-  if (!batch || !student) {
+  if (!course || !student) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <span className="text-lg text-[var(--muted-foreground)]">
@@ -88,13 +89,13 @@ export default function StudentBatchDetail() {
         <div className="flex items-center justify-between mb-2">
           <div>
             <h1 className="text-2xl font-semibold flex items-center gap-2">
-              {batch.name}
+              {course.name}
               <span className="ml-2 px-2 py-1 rounded-full bg-[var(--color-badge-active,#18181b)] text-[var(--color-badge-active-text,#fff)] text-xs font-medium">
-                {batch.status}
+                {course.status}
               </span>
             </h1>
             <div className="text-[var(--muted-foreground)] text-sm mt-1">
-              {batch.code}
+              {course.code}
             </div>
           </div>
           <Button
@@ -128,12 +129,12 @@ export default function StudentBatchDetail() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <BatchOverview batch={batch} />
-            <BatchStats stats={batch.stats} />
+            <BatchOverview batch={course} />
+            <BatchStats stats={course.stats} />
             <div className="mt-6">
-              <h2 className="text-lg font-semibold mb-2">Batchmates</h2>
+              <h2 className="text-lg font-semibold mb-2">Classmates</h2>
               <ul className="space-y-2">
-                {batch.classmates.map((mate, idx) => (
+                {course.students.map((mate: string, idx: number) => (
                   <li
                     key={idx}
                     className="flex items-center gap-2 p-2 rounded bg-[var(--muted)]"
@@ -151,24 +152,25 @@ export default function StudentBatchDetail() {
             </div>
           </TabsContent>
           <TabsContent value="materials">
-            <BatchMaterials resources={batch.resources} />
+            <BatchMaterials resources={course.resources} />
           </TabsContent>
           <TabsContent value="sessions">
-            <BatchSessions sessions={batch.sessions} />
+            <BatchSessions sessions={course.sessions} />
           </TabsContent>
           <TabsContent value="attendance">
             <BatchAttendance
               stats={{
-                ...batch.stats,
-                sessionsPresent: batch.attendance.filter(
+                ...course.stats,
+                sessionsPresent: course.attendance.filter(
                   (a: { status: string }) => a.status === "Present"
                 ).length,
-                sessionsAbsent: batch.attendance.filter(
+                sessionsAbsent: course.attendance.filter(
                   (a: { status: string }) => a.status === "Absent"
                 ).length,
               }}
-              attendance={batch.attendance.map((a: AttendanceRecord) => ({
-                ...a,
+              attendance={course.attendance.map((a) => ({
+                date: a.date,
+                topic: a.topic,
                 status:
                   a.status === "Present"
                     ? "Present"

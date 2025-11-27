@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import type { Batch } from "@/types/student/type";
+import type { CourseCard } from "@/components/dashboard/CourseCards";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import StudentDashboardComponent, {
@@ -14,12 +14,12 @@ export default function StudentDashboard() {
     studentId: string;
     name: string;
     email: string;
-    batches: Batch[];
+    courses: string[];
     notifications: string[];
     recentActivity: string[];
   };
   const [student, setStudent] = React.useState<Student | null>(null);
-  const [batches, setBatches] = React.useState<Batch[]>([]);
+  const [courses, setCourses] = React.useState<CourseCard[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -36,37 +36,19 @@ export default function StudentDashboard() {
         const studentData = mod.default;
         setStudent(studentData);
 
-        // Load batch details dynamically
-        const batchIds = studentData.batches;
-        const batchPromises = batchIds.map((id: string) =>
-          import(`@/mock/batch/${id}.json`).then((b) => b.default)
+        // Load course details dynamically
+        const courseIds = studentData.courses;
+        const coursePromises = courseIds.map((id: string) =>
+          import(`@/mock/course/${id}.json`).then((c) => c.default)
         );
-        const batchDetails = await Promise.all(batchPromises);
-        setBatches(batchDetails);
+        const courseDetails = await Promise.all(coursePromises);
+        setCourses(courseDetails);
         setLoading(false);
       }
     }
     loadStudentAndBatches();
   }, [studentId, router]);
 
-  // Demo data for new dashboard
-  const courseCards: StudentDashboardProps["courseCards"] = [
-    {
-      name: "Basic: HTML and CSS",
-      stats: { files: 24, assignments: 8, students: 99 },
-      color: "#e6eafd",
-    },
-    {
-      name: "Branding Design",
-      stats: { files: 24, assignments: 8, students: 99 },
-      color: "#f7f6e7",
-    },
-    {
-      name: "Motion Design",
-      stats: { files: 24, assignments: 8, students: 99 },
-      color: "#eaf7e7",
-    },
-  ];
   const hoursSpent: StudentDashboardProps["hoursSpent"] = [
     { month: "Jan", study: 40, exams: 20 },
     { month: "Feb", study: 20, exams: 20 },
@@ -96,22 +78,26 @@ export default function StudentDashboard() {
     {
       label: "Developing Restaurant Apps",
       category: "Programming",
-      time: "08:00 AM",
+      dateTime: "27 Nov 2025, 08:00 AM",
       checked: false,
+      subtasks: [
+        { label: "Slicing Home Screen", checked: false },
+        { label: "Integrate API", checked: false },
+      ],
     },
-    { label: "Integrate API", category: "", time: "", checked: false },
-    { label: "Slicing Home Screen", category: "", time: "", checked: false },
     {
       label: "Research Objective User",
       category: "Product Design",
-      time: "02:40 PM",
+      dateTime: "27 Nov 2025, 02:40 PM",
       checked: false,
+      subtasks: [],
     },
     {
       label: "Report Analysis P2P-Business",
       category: "Business",
-      time: "04:50 PM",
+      dateTime: "27 Nov 2025, 04:50 PM",
       checked: true,
+      subtasks: [],
     },
   ];
 
@@ -127,10 +113,11 @@ export default function StudentDashboard() {
   return (
     <StudentDashboardComponent
       student={{ name: student.name }}
-      courseCards={courseCards}
+      courses={courses}
       hoursSpent={hoursSpent}
       leaderboard={leaderboard}
       todoList={todoList}
+      studentId={student.studentId}
     />
   );
 }
